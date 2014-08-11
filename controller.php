@@ -1,5 +1,4 @@
 <?php
-// andres felipe quinttero garcia fdsfsd
 /**
  * @version		$Id: controller.php 20553 2011-02-06 06:32:09Z infograf768 $
  * @package		Joomla.Site
