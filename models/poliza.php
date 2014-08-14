@@ -116,10 +116,10 @@ class ModelPoliza extends JModel{
 		JTable::addIncludePath(JPATH_COMPONENT .DS. 'tables');	
 		$row =& JTable::getInstance('Polizas', 'Table');
 		$user = JFactory::getUser();
-		
 		if($row->bind(JRequest::get('post'))){
 			$row->usuario = $user->id ;
 			$row->activo = 1 ;
+            $this->guardarPolizaHogar();
 			if($row->store()){
 				return JText::_('M_OK') . sprintf( JText::_('US_GUARDAR_OK') , $row->id );
 			}
@@ -129,6 +129,28 @@ class ModelPoliza extends JModel{
 		
 		}
 	}
+
+    function guardarPolizaHogar(){
+        JTable::addIncludePath(JPATH_COMPONENT .DS. 'tables');
+        $row =& JTable::getInstance('Hogares', 'Table');
+        $user = JFactory::getUser();
+        $array = [
+            "cod_fasecolda" => JRequest::getVar('cod_fasecolda'),
+            "valorAseRes" =>  JRequest::getVar('valorAseRes'),
+            "equiElect" =>  JRequest::getVar('equiElect'),
+            "valorCont" =>  JRequest::getVar('valorCont'),
+            "tipo_riesgo" =>  JRequest::getVar('tipo_riesgo'),
+        ];
+        if($row->bind($array)){
+            if($row->store()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
 	
 }
 

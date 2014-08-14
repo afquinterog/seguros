@@ -494,7 +494,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Valor asegurado del riesgo<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="clase" type="text" value='<?php echo $clase;?>' class="m-wrap span12" />
+									   <input name="valorAseRes" type="text" value='<?php echo $clase;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -503,7 +503,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Valor de contenidos<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="tipo" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+									   <input name="valorCont" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -516,7 +516,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Equipo electrico  y electronico<span class="required">*</span></label>
 									<div class="controls">
-										<input name="tipo" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+										<input name="equiElect" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
