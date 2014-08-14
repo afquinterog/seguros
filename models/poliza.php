@@ -97,8 +97,52 @@ class ModelPoliza extends JModel{
 		return $result;
 	}
 
-	
-	/**
+
+    function listarPolizasAutos($polizaId){
+        $db = JFactory::getDBO();
+        $user = JFactory::getUser();
+        $tbAutos = $db->nameQuote('#__zpolizas_autos');
+
+
+        $query = "SELECT
+						id as idAuto
+				  FROM
+						$tbAutos as autos
+				  WHERE
+						poliza = %s
+						";
+
+        $query = sprintf( $query, "%" . $polizaId . "%" );
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        return $result[0];
+    }
+
+
+    function listarPolizasHogares($polizaId){
+        $db = JFactory::getDBO();
+        $user = JFactory::getUser();
+        $tbHogares = $db->nameQuote('#__zpolizas_hogar');
+
+
+        $query = "SELECT
+						id as idHogar
+				  FROM
+						$tbHogares as autos
+				  WHERE
+						poliza = %s
+						";
+
+        $query = sprintf( $query, "%" . $polizaId . "%" );
+        $db->setQuery($query);
+        $result = $db->loadObjectList();
+        return $result[0];
+    }
+
+
+
+
+    /**
 	* Obtiene la poliza a traves del id
 	*/
 	function getPoliza($id){
@@ -106,7 +150,16 @@ class ModelPoliza extends JModel{
 		$row = &JTable::getInstance('Polizas', 'Table');
 		$row->id = $id;
 		$row->load();
-		return $row;
+        $relacionado = [];
+        switch ($row->ramo){
+            case 1:
+                $relacionado = $this->listarPolizasAutos($row->id);
+                break;
+            case 2:
+                $relacionado = $this->listarPolizasHogares($row->id);
+                break;
+        }
+		return [$row, $relacionado];
 	}
 	
 	/**
@@ -119,9 +172,20 @@ class ModelPoliza extends JModel{
 		if($row->bind(JRequest::get('post'))){
 			$row->usuario = $user->id ;
 			$row->activo = 1 ;
-            $this->guardarPolizaHogar();
-			if($row->store()){
+            $tipoRamo = JRequest::getVar('ramo');
+            $conseguido= 'no';
+
+            if($row->store()){
+                switch ($tipoRamo){
+                    case 1:
+                        $conseguido =  $this->guardarPolizaAuto($row->id);
+                        break;
+                    case 2:
+                        $conseguido = $this->guardarPolizaHogar($row->id);
+                        break;
+                }
 				return JText::_('M_OK') . sprintf( JText::_('US_GUARDAR_OK') , $row->id );
+
 			}
 			else{
 				return JText::_('M_ERROR'). JText::_('US_GUARDAR_ERROR');
@@ -130,20 +194,32 @@ class ModelPoliza extends JModel{
 		}
 	}
 
-    function guardarPolizaHogar(){
+    function guardarPolizaHogar($polizaId){
         JTable::addIncludePath(JPATH_COMPONENT .DS. 'tables');
         $row =& JTable::getInstance('Hogares', 'Table');
         $user = JFactory::getUser();
-        $array = [
-            "cod_fasecolda" => JRequest::getVar('cod_fasecolda'),
-            "valorAseRes" =>  JRequest::getVar('valorAseRes'),
-            "equiElect" =>  JRequest::getVar('equiElect'),
-            "valorCont" =>  JRequest::getVar('valorCont'),
-            "tipo_riesgo" =>  JRequest::getVar('tipo_riesgo'),
-        ];
-        if($row->bind($array)){
+        if($row->bind(JRequest::get('post'))){
+            $row->id = JRequest::getVar('id_hogar');
+            $row->poliza = $polizaId;
             if($row->store()){
-                return true;
+                return $row->id;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    function guardarPolizaAuto($polizaId){
+        JTable::addIncludePath(JPATH_COMPONENT .DS. 'tables');
+        $row =& JTable::getInstance('Autos', 'Table');
+        $user = JFactory::getUser();
+        if($row->bind(JRequest::get('post'))){
+            $row->id = JRequest::getVar('id_auto');
+            $row->poliza = $polizaId;
+            $row->tipo = JRequest::getVar('tipo_vehiculo');
+            if($row->store()){
+                return $row->id;
             }
             else{
                 return false;

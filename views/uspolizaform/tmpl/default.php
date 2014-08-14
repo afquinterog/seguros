@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 
 $data = $this->data;
+$relacionado = $this->relacionado;
 
 $titleMsg = (isset($data->id) ? "Editar " : "Crear  ");
 
@@ -46,19 +47,28 @@ $observaciones    = (isset($data->observaciones) ? $data->observaciones : "");
 
 
 //Ramo vehiculos
-$cod_fasecolda      = (isset($data->cod_fasecolda) ? $data->cod_fasecolda : "");	
-$marca              = (isset($data->marca) ? $data->marca : "");
-$clase              = (isset($data->clase) ? $data->clase : "");
-$tipo               = (isset($data->tipo) ? $data->tipo : "");
-$ciudad_circulacion = (isset($data->ciudad_circulacion) ? $data->ciudad_circulacion : "");
-$color = (isset($data->color) ? $data->color : "");
+$id_auto      = (isset($relacionado->id_auto) ? $relacionado->id_auto : "");
+$cod_fasecolda      = (isset($relacionado->cod_fasecolda) ? $relacionado->cod_fasecolda : "");
+$marca              = (isset($relacionado->marca) ? $relacionado->marca : "");
+$clase              = (isset($relacionado->clase) ? $relacionado->clase : "");
+$tipo_vehiculo      = (isset($relacionado->tipo_vehiculo) ? $relacionado->tipo_vehiculo : "");
+$ciudad_circulacion = (isset($relacionado->ciudad_circulacion) ? $relacionado->ciudad_circulacion : "");
+$color = (isset($relacionado->color) ? $relacionado->color : "");
+
+//Ramo hogar
+$id_hogar     = (isset($relacionado->id_hogar) ? $relacionado->id_hogar : "");
+$direc_riesgo     = (isset($relacionado->direc_riesgo) ? $relacionado->direc_riesgo : "");
+$tipo_riesgo      = (isset($relacionado->tipo_riesgo) ? $relacionado->tipo_riesgo : "");
+$valor_ase_res    = (isset($relacionado->valor_ase_res) ? $relacionado->valor_ase_res : "");
+$valor_cont       = (isset($relacionado->valor_cont) ? $relacionado->valor_cont : "");
+$equi_elect = (isset($relacionado->ciudad_circulacion) ? $relacionado->ciudad_circulacion : "");
 
 
 ?>
 	<div class="row-fluid">
 		<div class="span12">
 			<?php PortletHelper::show("Formulario de Pólizas"); ?>
-			
+
 				
 				<form id="form" class="form-horizontal" method="post" >
 				
@@ -409,7 +419,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Tipo<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="tipo" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+									   <input name="tipo_vehiculo" type="text" value='<?php echo $tipo_vehiculo;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -422,7 +432,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Modelo<span class="required">*</span></label>
 									<div class="controls">
-										<input name="tipo" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+										<input name="modelo" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -431,7 +441,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Placa<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="accesorios" type="text" value='<?php echo $accesorios;?>' class="m-wrap span12" >
+									   <input name="placa" type="text" value='<?php echo $accesorios;?>' class="m-wrap span12" >
 									</div>
 								</div>
 							</div>
@@ -467,7 +477,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Direccion de riesgo<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="cod_fasecolda" type="text" value='<?php echo $cod_fasecolda;?>' class="m-wrap span12" />
+									   <input name="direc_riesgo" type="text" value='<?php echo $direc_riesgo;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -494,7 +504,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Valor asegurado del riesgo<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="valorAseRes" type="text" value='<?php echo $clase;?>' class="m-wrap span12" />
+									   <input name="valor_ase_res" type="text" value='<?php echo $valor_ase_res;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -503,7 +513,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Valor de contenidos<span class="required">*</span></label>
 									<div class="controls">
-									   <input name="valorCont" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+									   <input name="valor_cont" type="text" value='<?php echo $valor_cont;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -516,7 +526,7 @@ $color = (isset($data->color) ? $data->color : "");
 								<div class="control-group ">
 									<label class="control-label">Equipo electrico  y electronico<span class="required">*</span></label>
 									<div class="controls">
-										<input name="equiElect" type="text" value='<?php echo $tipo;?>' class="m-wrap span12" />
+										<input name="equi_elect" type="text" value='<?php echo $equi_elect;?>' class="m-wrap span12" />
 									</div>
 								</div>
 							</div>
@@ -538,6 +548,8 @@ $color = (isset($data->color) ? $data->color : "");
 					
 					<?php echo JHTML::_( 'form.token' ); ?>
 					<input type='hidden' name='id' value='<?php echo $id;?>' />
+					<input type='hidden' name='idAuto' value='<?php echo $id_auto;?>' />
+					<input type='hidden' name='idHogar' value='<?php echo $id_hogar;?>' />
 					<input type='hidden' name='option' value='com_ztadmin' />
 					<input type='hidden' name='task' value='usPolizaSave' />
 				</form>

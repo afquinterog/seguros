@@ -38,7 +38,10 @@ class ViewUsPolizaForm extends JView
 		
 		$model = $this->getModel('Poliza');
 		if( $id > 0 ){
-			$data      = $model->getPoliza($id);
+            $tablaPoliza  = $model->getPoliza($id);
+            print_r("lolque".$tablaPoliza[0]);
+			$data      = $tablaPoliza[0];
+            $relacionado = $tablaPoliza[1];
 		}
 		
 		// Obtiene las listas de datos
@@ -49,6 +52,7 @@ class ViewUsPolizaForm extends JView
 		
 		$this->assignRef('id', $id );
 		$this->assignRef('data',$data );
+		$this->assignRef('relacionado',$relacionado );
 		// Asigna las listas a la gui
 		$this->assignRef('aseguradoras', $aseguradoras );
 		$this->assignRef('clientes', $clientes );
